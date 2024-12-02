@@ -1,20 +1,8 @@
-from sys import exit
-
-import traceback
-
-
-def view_expenses():
-  # Implement view_expenses here
-  pass
+from expense_tracker_v1 import main_page
 
 
 def main():
-  try:
-    # Implement main page here
-    exit()
-  except Exception:
-    print('Program error')
-    traceback.print_exc()
+  main_page()
 
 
 if __name__ == "__main__":
