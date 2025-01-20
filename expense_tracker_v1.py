@@ -1,19 +1,17 @@
 from sys import exit
-from datetime import datetime
 import traceback
 
+expenses = [
+    {"Category": "Food     ", "Description": "Grocery         ", "Amount": 2000, "Date": "   02/12/2024"},
+    {"Category": "Utilities", "Description": "Electric Bill   ", "Amount": 1500, "Date": "   15/11/2024"},
+    {"Category": "Utilities", "Description": "Water Bill      ", "Amount": 300, "Date": "   15/11/2024"},
+    {"Category": "Transpo  ", "Description": "Grab            ", "Amount": 750, "Date": "   20/10/2024"},
+    {"Category": "Others   ", "Description": "Grand BINI-verse", "Amount": 12000, "Date": "   09/09/2024"},
+    {"Category": "Food     ", "Description": "Steak           ", "Amount": 3500.75, "Date": "   05/11/2024"}
+]
 
 def view_all_expenses():
     print("\n--- View All Expenses ---")
-    # Example of sample data for expenses
-    expenses = [
-        {"Category": "Food     ", "Description": "Grocery         ", "Amount": 2000, "Date": "   02/12/2024"},
-        {"Category": "Utilities", "Description": "Electric Bill   ", "Amount": 1500, "Date": "   15/11/2024"},
-        {"Category": "Utilities", "Description": "Water Bill      ", "Amount": 300, "Date": "   15/11/2024"},
-        {"Category": "Transpo  ", "Description": "Grab            ", "Amount": 750, "Date": "   20/10/2024"},
-        {"Category": "Others   ", "Description": "Grand BINI-verse", "Amount": 12000, "Date": "   09/09/2024"},
-        {"Category": "Food     ", "Description": "Steak           ", "Amount": 3500.75, "Date": "   05/11/2024"}
-    ]
 
     print("Category\tDescription\t\tAmount\t   Date")
     print("-------------------------------------")
@@ -25,17 +23,8 @@ def view_all_expenses():
 def filter_by_month():
     while True:
         print("\n--- Filter Expenses by Month ---")
-        month = input("Enter the month to filter by (01-12): ").strip()
+        month = input("Enter the month to filter by (01-12): [Enter x to go back] > ").strip()
 
-        # Example of sample data for expenses
-        expenses = [
-            {"Category": "Food     ", "Description": "Grocery         ", "Amount": 2000, "Date": "   02/12/2024"},
-            {"Category": "Utilities", "Description": "Electric Bill   ", "Amount": 1500, "Date": "   15/11/2024"},
-            {"Category": "Utilities", "Description": "Water Bill      ", "Amount": 300, "Date": "   15/11/2024"},
-            {"Category": "Transpo  ", "Description": "Grab            ", "Amount": 750, "Date": "   20/10/2024"},
-            {"Category": "Others   ", "Description": "Grand BINI-verse", "Amount": 12000, "Date": "   09/09/2024"},
-            {"Category": "Food     ", "Description": "Steak           ", "Amount": 3500.75, "Date": "   05/11/2024"}
-        ]
         if "01" <= month <= "12":
             print("Category\tDescription\t\tAmount\t   Date")
             print("-------------------------------------")
@@ -58,7 +47,8 @@ def filter_by_month():
                 print(f"No records found for month {month}.")
             else:
                 break
-
+        elif 'x' == month.lower():
+            break
         else:
             print('Invalid input, please try again')
 
@@ -66,74 +56,76 @@ def filter_by_month():
 def filter_by_category():
     while True:
         print("\n--- Filter Expenses by Category ---")
-        category = input("Enter the category (e.g., Food, Transpo): ").strip()
-
-        # Example of sample data for expenses
-        expenses = [
-            {"Category": "Food     ", "Description": "Grocery         ", "Amount": 2000, "Date": "   02/12/2024"},
-            {"Category": "Utilities", "Description": "Electric Bill   ", "Amount": 1500, "Date": "   15/11/2024"},
-            {"Category": "Utilities", "Description": "Water Bill      ", "Amount": 300, "Date": "   15/11/2024"},
-            {"Category": "Transpo  ", "Description": "Grab            ", "Amount": 750, "Date": "   20/10/2024"},
-            {"Category": "Others   ", "Description": "Grand BINI-verse", "Amount": 12000, "Date": "   09/09/2024"},
-            {"Category": "Food     ", "Description": "Steak           ", "Amount": 3500.75, "Date": "   05/11/2024"}
-        ]
-
-        print("Category\tDescription\t\tAmount\t   Date")
         print("-------------------------------------")
-        found = False
-        for expense in expenses:
+        print("1) Food")
+        print("2) Utilities")
+        print("3) Transpo")
+        print("4) Others")
+        print("x) Go Back")
+        print("-------------------------------------")
+        category = input("Enter the category (e.g., Food, Transpo): [Enter x to go back] > ").strip()
 
-            if expense["Category"].lower().strip() == category.lower():
-                print(f"{expense['Category']}\t{expense['Description']}\t{expense['Amount']}\t{expense['Date']}")
-                found = True
-        if not found:
-            print(f"No records found for category {category}.")
-        else:
+        found = False
+        if 'x' == category.lower():
             break
+        else:
+            print("Category\tDescription\t\tAmount\t   Date")
+            print("-------------------------------------")
+            if category == '1': categoryValue = 'Food'
+            elif category == '2': categoryValue = 'Utilities'
+            elif category == '3': categoryValue = 'Transpo'
+            elif category == '4': categoryValue = 'Others'
+            for expense in expenses:
+
+                if expense["Category"].lower().strip() == categoryValue.lower():
+                    print(f"{expense['Category']}\t{expense['Description']}\t{expense['Amount']}\t{expense['Date']}")
+                    found = True
+            if not found:
+                print(f"No records found for category {category}.")
+            else:
+                break
 
 def filter_by_amount():
     while True:
         print("\n--- Filter Expenses by Amount ---")
+        checker = True
+        while checker:
+            min_amount = float(input("Enter the minimum amount: [Enter x to go back] > ").strip())
+            if 'x' == min_amount: break
+            elif not min_amount: print("Invalid min amount. Please try again.")
+            max_amount = float(input("Enter the maximum amount: [Enter x to go back] > ").strip())
+            if 'x' == max_amount: break
+            elif not max_amount: print("Invalid max amount. Please try again.")
+            else: checker = False
 
+        found = False
         try:
-            amount = float(input("Enter the amount: "))
-
-            # Example of sample data for expenses
-            expenses = [
-                {"Category": "Food     ", "Description": "Grocery         ", "Amount": 2000, "Date": "   02/12/2024"},
-                {"Category": "Utilities", "Description": "Electric Bill   ", "Amount": 1500, "Date": "   15/11/2024"},
-                {"Category": "Utilities", "Description": "Water Bill      ", "Amount": 300, "Date": "   15/11/2024"},
-                {"Category": "Transpo  ", "Description": "Grab            ", "Amount": 750, "Date": "   20/10/2024"},
-                {"Category": "Others   ", "Description": "Grand BINI-verse", "Amount": 12000, "Date": "   09/09/2024"},
-                {"Category": "Food     ", "Description": "Steak           ", "Amount": 3500.75, "Date": "   05/11/2024"}
-            ]
-
             print("Category\tDescription\t\tAmount\t   Date")
             print("-------------------------------------")
-            found = False
             for expense in expenses:
 
-                if expense["Amount"] == amount:
+                if min_amount <= expense["Amount"] <= max_amount:
                     print(f"{expense['Category']}\t{expense['Description']}\t{expense['Amount']}\t{expense['Date']}")
                     found = True
             if not found:
-                print(f"No records found for amount {amount}.")
+                print(f"No records found with amounts between {min_amount} and {max_amount}.")
             else:
                 break
         except ValueError:
             print("Invalid amount. Please try again.")
 
+
 def expense_menu():
     while True:
-        print("--------------------------------")
+        print("-------------------------------------")
         print("View Expense")
-        print("--------------------------------")
+        print("-------------------------------------")
         print("1) View all expenses")
         print("2) Filtered by month")
         print("3) Filtered by category")
         print("4) Filtered by amount")
         print("x) Go Back")
-        print("--------------------------------")
+        print("-------------------------------------")
 
         choice = input("Choose an option > ").strip()
 
@@ -153,12 +145,12 @@ def expense_menu():
 
 def main_page():
     while True:
-        print("--------------------------------")
+        print("-------------------------------------")
         print("Personal Expense Tracker")
-        print("--------------------------------")
+        print("-------------------------------------")
         print("1) View Expenses")
         print("x) Exit")
-        print("--------------------------------")
+        print("-------------------------------------")
 
         choice = input("Choose an option > ").strip()
 
